@@ -1,0 +1,213 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+	<div class="mt-2">
+		<strong>Note:</strong> <h5>If you have any digital item in cart then please order it individually. Don't put it with physical items.</h5>
+	</div>
+     <div class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				
+				<form id="form">
+					<div id="user-info">
+						<div class="form-field">
+							<input required class="form-control" id='name' type="text" name="name" placeholder="Name..">
+						</div>
+						<div class="form-field">
+							<input required class="form-control" id="email" type="email" name="email" placeholder="Email..">
+						</div>
+					</div>
+					<div id="shipping-info">
+						<hr>
+						<p>Shipping Information:</p>
+						<hr>
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="Address..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="city" placeholder="City..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="state" placeholder="State..">
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+						</div>
+						<!-- <div class="form-field">
+							<input class="form-control" type="text" name="country" placeholder="Zip code..">
+						</div> -->
+					</div>
+
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info">
+				<small>Paypal Options</small>
+				<!-- <button id="make-payment">Make Payment</button> -->
+				<div id="paypal-button-container"></div>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<a  class="btn btn-outline-dark" href="{% url 'store' %}" style="position: absolute;right: 387px;"> Continue Shopping &#x2192;</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<h5>Total Cart Items: {{order.get_total_cart_items}}</h5>
+				<h5 style="left: 1160px; top: 253px; position: absolute;">Total Cart Price: ₹ {{order.get_total_cart_price}}</h5>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="/media/{{item.product.image}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div> 
+					<div style="flex:1"><p>₹{{item.product.price}}</p></div>
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+				{% endfor %}
+				<!-- <h5>Total Cart Items: {{order.get_total_cart_items}}</h5>
+				<h5>Total Cart Price: ₹ {{order.get_total_cart_price}}</h5> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- paypal API -->
+	<script src="https://www.paypal.com/sdk/js?client-id=AV4tEV6x7m2CQUwWpY3rXWwmme6E3TK5Jlw8oJDXvHgMXLCuRRPwE_4jT0wiDbU1SIMbzcyYIqkDRSmT&currency=USD"></script>
+
+	<script>
+		let total = '{{order.get_total_cart_price}}' // this will be the total amount that user will have to pay
+
+	// Render the PayPal button into #paypal-button-container
+	paypal.Buttons({
+		style: {
+			color: 'blue',
+			shape: 'rect',	
+		},
+
+		// Set up the transaction - Create order method
+		createOrder: function(data, actions) {
+			return actions.order.create({
+				purchase_units: [{
+					amount: {
+						value: total
+					}
+				}]
+			});
+		},
+
+		// Finalize the transaction
+		onApprove: function(data, actions) {
+			return actions.order.capture().then(function(orderData) {
+				submitFormData()
+			});
+		}
+
+
+	}).render('#paypal-button-container');
+    </script>
+
+
+	<!-- Shipping -->
+	<script type="text/javascript">
+		let shipping = '{{order.shipping}}'
+		
+		// Show 'Shipping' option is the items in the cart are physical items. If all the items or single item is digital item then don't show shipping option
+		if(shipping == 'False') {
+			document.getElementById("shipping-info").innerHTML = ""
+		}
+
+		// if user is logged in then, user doesn't have to type the email id but have to fill up rest of the form fields.
+		if(user != 'AnonymousUser') {
+			// document.getElementById("email").innerHTML = ""
+		}
+
+		// If shipping is FALSE (means Item is digital) then hide the entire form and just show the payment option
+		if(shipping == 'False' && user != 'AnonymousUser') {
+			// hide the entire form if the user is logged in
+			document.getElementById('form-wrapper').classList.add('hidden');
+		
+			// show the payment option
+			document.getElementById('payment-info').classList.remove('hidden');
+
+		}
+
+		// submitting shipping data
+		let form = document.getElementById('form')
+		form.addEventListener('submit', function(e) {
+			e.preventDefault() // will prevent from submitting itself.
+			// console.log('Form submitted')
+			document.getElementById('form-button').classList.add('hidden') // after submitting form, continue option will be hidden
+			document.getElementById('payment-info').classList.remove('hidden') // When form is submitted, Payment option will appear
+		})
+
+		// payment option
+		/*
+		document.getElementById('make-payment').addEventListener('click', function(e) {
+			submitFormData()
+		})*/
+
+		function submitFormData() {
+
+			// console.log('Payment Button Clicked')
+
+			let userFormData = {
+				'name': null,
+				'email': null,	
+				'total': total,
+			}
+			let shippingInfo = {
+				'address': null,
+				'city': null,
+				'state': null,
+				'zipcode': null,
+			}
+
+			// if the item is digital then shipping is 'False' because it can't be shipped to physical address
+			if(shipping != 'False') {
+				shippingInfo.address = form.address.value
+				shippingInfo.city = form.city.value
+				shippingInfo.state = form.state.value
+				shippingInfo.zipcode = form.zipcode.value
+			}
+
+			if(user != 'False' || user == 'False') {
+				userFormData.name = form.name.value
+				userFormData.email = form.email.value
+			}
+
+
+			// API for processOrder
+			let url = "/process_order/" // this is where we want to send the data.
+
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': csrftoken,
+				},
+				body:JSON.stringify({'form': userFormData, 'shipping':shippingInfo}) // this data will be sent backend
+			})
+
+			// returning promise
+			.then((response) => response.json()) // json response
+			.then((data) => {
+				console.log('alert')
+				alert('Transaction Completed');	
+
+				// clearing out cookies after transaction is completed - Doesn't matter whether user is logged in or not
+				cart = {}
+				document.cookie = 'cart=' + JSON.stringify(cart) + ";domain;path=/"
+
+				window.location.href = "{% url 'store' %}" // after completing payment, user is sent back to home page 'store'
+			})		 
+		}
+	</script>
+{% endblock content %}
+
+
+ 

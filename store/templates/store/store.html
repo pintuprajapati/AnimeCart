@@ -1,0 +1,31 @@
+<!-- It will be home page (index page) of site -->
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    {% if request.user.is_authenticated %}
+        <h3><p>Hello, {{request.user}}</p></h3>
+    {% endif %}
+
+</div>
+<div class="container mt-5">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-3">
+            <figure class="card card-product-grid" style="width: 18rem; border: 1px solid black;">
+                <img src="/media/{{product.image}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}} </h5>
+                    <h4 style="float: right; position: absolute;bottom: 16px;right: 20px;" class="mt-2">₹ {{product.price}}</h4>
+                    <p class="card-text">{{product.description}}</p>
+                    <a data-product={{product.id}} data-action="add" href="#" class="btn btn-primary mt-2 update-cart">Add to Cart</a>
+                    <a class="btn btn-primary mt-2 expand-view">View</a>
+                </div>
+            </figure>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
