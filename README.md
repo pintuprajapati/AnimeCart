@@ -11,3 +11,8 @@ Note: I have created this project in python virtual environment
    go to `http://127.0.0.1:8000/admin/`
    -  username: admin
    - password: 123
+
+Features of the site:
+- Anime Cart is an E-Commerce website fully integrated with PayPal payment sysyem.
+- Customer can visit the site without login/register but to buy stuff he/she has to login/register first.
+- Users can add items to the cart and checkout whenever then they want to buy.
