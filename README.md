@@ -9,5 +9,5 @@ Note: I have created this project in python virtual environment
    `python manage.py runserver`
 3. To access admin panel:
    go to `http://127.0.0.1:8000/admin/`
-   username: admin
-   password: 123
+   -  username: admin
+   - password: 123
