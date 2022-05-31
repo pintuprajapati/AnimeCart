@@ -1,3 +1,6 @@
+![site ui](https://user-images.githubusercontent.com/37404377/171172028-ba705199-dbad-4a3b-8acd-27b4a61b63eb.jpg)
+
+
 # AnimeCart
 AnimeCart is an E-Commerce Website for anime fans. Where fans can buy clothes and merchandises of anime.
 
