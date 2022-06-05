@@ -6,12 +6,14 @@
 <div class="container">
     {% if request.user.is_authenticated %}
         <h3><p>Hello, {{request.user}}</p></h3>
-        From register/login to adding items to cart to paying money using paypal - Everything is working fine.
-        <br>
-        But if you might not be able to see the images, that's because I haven't set the AWS S3 file storage.
-        <br>
-        For testing purpose, just add any item into cart and you can buy it
     {% endif %}
+
+    
+    From <u>register/login</u> to <u>adding items to the cart</u> to <u>paying money using paypal</u> - Everything is working fine.
+    <br>
+    But you might not be able to see the images for now, that's because I haven't set up the AWS S3 file storage.
+    <br>
+    For testing purpose, just add any item into cart and you can buy it
 
 </div>
 <div class="container mt-5">
