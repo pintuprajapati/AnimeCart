@@ -90,19 +90,22 @@
               <a class="nav-link active" aria-current="page" href="{% url 'store' %}">Home</a>
             {% endif %}
           </li>
+          <li>
+            <div class="nav-link active" aria-current="page">Best User Interface is seen in Desktop/Laptop screen.</div>
+          </li>
         </ul>
         
 
         {% if request.user.is_authenticated %}
         <a href="{% url 'accounts:logout_user' %}">
           <button class="btn btn-outline-success btn-primary mx-2" type="submit"
-            style="left: 1290px;position: absolute;border-radius: 20px;top: 8px;width: 114px;padding: 4px;color: black;font-weight: bold;font-size: 22px;">Logout</button>
+            style="/* left: 1290px; *//* position: absolute; */border-radius: 20px;/* top: 8px; */width: 114px;padding: 4px;color: black;font-weight: bold;font-size: 22px;">Logout</button>
         </a>
 
         <a style="color: black; font-size: 22px;;" href="{% url 'cart' %}">
           <button class="btn btn-outline-success btn-info" type="submit"
-            style="left: 1425px;position: absolute;box-sizing: unset;padding: 2px;width: 79px;height: 38px;text-align: left;border-radius: 20px;font-weight: bold;">Cart
-            <p class="cart-item" id="cart-total" style="position: absolute;right: 8px;top: 9px; text-align: center; color: black;">
+            style="/* left: 1425px; *//* position: absolute; */box-sizing: unset;padding: 2px;width: 79px;height: 38px;text-align: left;border-radius: 20px;font-weight: bold;">Cart
+            <p class="cart-item" id="cart-total" style="position: absolute;right: 22px;top: 19px;/* float: right; */text-align: center;color: black;">
               {{cartItems}}</p>
         </a>
         </button>
@@ -110,12 +113,12 @@
 
         <a href="{% url 'accounts:login_user' %}">
           <button class="btn btn-outline-success btn-primary mx-2" type="submit"
-            style="left: 1290px;position: absolute;border-radius: 20px;top: 8px;font-size: 22px;padding: 4px;width: 100px;color: black;font-weight: bold;">Login</button>
+            style="/* left: 1290px; *//* position: absolute; */border-radius: 20px;/* top: 8px; */font-size: 22px;padding: 4px;width: 100px;color: black;font-weight: bold;">Login</button>
         </a>
 
         <a href="{% url 'accounts:register_user' %}">
           <button class="btn btn-outline-success btn-success mx-2" type="submit"
-            style="left: 1400px;position: absolute;border-radius: 20px;top: 8px;color: black;padding: 4px;width: 100px;text-align: center;font-size: 22px;font-weight: bold;">Register</button>
+            style="/* left: 1400px; *//* position: absolute; */border-radius: 20px;/* top: 8px; */color: black;padding: 4px;width: 100px;text-align: center;font-size: 22px;font-weight: bold;">Register</button>
           </a>         
 
           {% endif %}
