@@ -2,7 +2,11 @@
 
 
 # AnimeCart
-AnimeCart is an E-Commerce Website for anime fans. Where fans can buy clothes and merchandises of anime.
+- You can visit this site here (Deployed on Heroku):
+https://animecart.herokuapp.com/
+
+- AnimeCart is an E-Commerce Website for anime fans. Where fans can buy clothes and merchandises of anime.
+
 
 To run this project in your local system, follow below steps: 
 
